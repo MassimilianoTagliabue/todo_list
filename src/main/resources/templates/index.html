@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <html xmlns:th="http://www.thymeleaf.org">
+         
 
     </html>
     <title>To Do List</title>
@@ -9,10 +11,26 @@
 
     <th:block th:insert="~{fragments/resources :: styles}"></th:block>
 </head>
+
 <body>
     <h2>lista</h2>
-    
+   
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="col" th:each="task : ${tasks}" th:object="${task}">
+                <div class="card shadow-sm border-success">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="*{title}"></h5>
+                        <p class="card-text" th:text="*{description}"></p>
+                        <span class="badge bg-success" th:if="*{completed}">Completata</span>
+                        <span class="badge bg-warning" th:unless="*{completed}">In Sospeso</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div th:replace="~{fragments/resources :: scripts}"></div>
 </body>
+
 </html>
