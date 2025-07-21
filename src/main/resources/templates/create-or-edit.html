@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <html xmlns:th="http://www.thymeleaf.org">
+
+
+    </html>
+    <title>To Do List</title>
+    <th:block th:insert="~{fragments/resources :: headTags}"></th:block>
+
+    <th:block th:insert="~{fragments/resources :: styles}"></th:block>
+</head>
+
+<body>
+    <div class="col-6 mx-auto mt-4">
+        <h2 class="text-center my-4" th:if="${edit}">Modifica una Task </h2>
+        <h2 class="text-center my-4" th:unless="${edit}">Crea una nuova Task </h2>
+    
+
+    <form th:action="${edit} ? @{|/edit/${task.id}|} : @{/create}" th:object="${task}" method="post">
+
+            <div class="mb-4 ">
+                <label for="title" class="form-label">Titolo della Task:</label>
+                <input type="text" id="title" class="form-control" th:field="*{title}" autocomplete="off"
+                    th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('title')}" th:text="${error}"></li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="mb-4 form-floating">
+                <textarea class="form-control" placeholder="Descrizione" id="description" style="height: 100px"
+                    th:field="*{description}" th:errorClass="is-invalid"></textarea>
+                <label for="description" class="form-label">Descrizione</label>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('description')}" th:text="${error}"></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="mb-3 d-flex justify-content-around">
+                <input type="submit" class="btn btn-primary" th:value="${edit} ? Modifica : Crea">
+                <input type="reset" class="btn btn-success" value="Ripristina" autocomplete="off">
+            </div>
+
+    </form>
+
+
+
+</div>
+
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+</body>
+
+</html>
