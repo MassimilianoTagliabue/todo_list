@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
@@ -44,13 +45,35 @@ public class TaskController {
     public String store(@Valid @ModelAttribute("task") Task formTask,
             BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
-            return"create-or-edit";
+            return"/create-or-edit";
         }
 
         taskService.createOrEdit(formTask);
         
         return "redirect:/task";
     }
+
+    //edit
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("task", taskService.getById(id));
+        model.addAttribute("edit", true);
+        return "/create-or-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@Valid @ModelAttribute("task") Task formTask, 
+            BindingResult bindingResult, Model model) {
+        
+                if(bindingResult.hasErrors()){
+                    return "/create-or-edit";
+                }
+                taskService.createOrEdit(formTask);
+        
+        return "redirect:/task";
+    }
+    
+    
     
     
     

@@ -17,6 +17,10 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public Task getById(Integer id){
+        return taskRepository.findById(id).get();
+    }
+
     public Task createOrEdit(Task formTask){
         return taskRepository.save(formTask);
     }

@@ -16,14 +16,20 @@
     <h2 class="text-center my-4">To Do List</h2>
    
     <div class="container mt-4">
+        <button class="btn btn-primary mb-4" th:onclick="|window.location='@{/create}'|">Crea una Task</button>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <div class="col" th:each="task : ${tasks}" th:object="${task}">
                 <div class="card shadow-sm border-success">
                     <div class="card-body">
                         <h5 class="card-title" th:text="*{title}"></h5>
                         <p class="card-text" th:text="*{description}"></p>
-                        <span class="badge bg-success" th:if="*{completed}">Completata</span>
-                        <span class="badge bg-warning" th:unless="*{completed}">In Sospeso</span>
+                        <!-- formatta la data -->
+                        <p class="card-text">[[|Creato : ${#temporals.format(task.createdAt, 'dd/MM/yyyy')} |]]</p>
+                        <div class="d-flex justify-content-between">
+                        <div th:if="*{completed}"><span class="badge bg-success p-2" >Completata</span></div>
+                        <div th:unless="*{completed}"><span class="badge bg-warning p-2" >In Sospeso</span></div>
+                        <button class="btn btn-primary" th:onclick="|window.location='@{/edit/{id}(id=*{id})}'|">Modifica</button>
+                    </div>
                     </div>
                 </div>
             </div>
