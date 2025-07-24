@@ -73,6 +73,15 @@ public class TaskController {
         return "redirect:/task";
     }
     
+
+    //order by task
+    @GetMapping("/task/order")
+    public String order(@RequestParam(name = "completed") Boolean param, Model model) {
+        model.addAttribute("task", taskService.orderByCompleted(param));
+        
+        return "/index";
+    }
+    
     
     
     

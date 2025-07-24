@@ -3,7 +3,7 @@
 
 <head>
     <html xmlns:th="http://www.thymeleaf.org">
-         
+
 
     </html>
     <title>To Do List</title>
@@ -14,9 +14,20 @@
 
 <body>
     <h2 class="text-center my-4">To Do List</h2>
-   
+
     <div class="container mt-4">
         <button class="btn btn-primary mb-4" th:onclick="|window.location='@{/create}'|">Crea una Task</button>
+
+        <form class="d-flex col-4 mx-4" role="search" th:action="@{/task/order}" method="get" data-bs-theme="dark">
+            <input type="radio" class="btn-check" name="completed" id="completed-true" th:value="true"
+                autocomplete="off" onchange="this.form.submit()">
+            <label class="btn btn-outline-success me-2" for="completed-true">Completate</label>
+
+            <input type="radio" class="btn-check" name="completed" id="completed-false" th:value="false"
+                autocomplete="off" onchange="this.form.submit()">
+            <label class="btn btn-outline-warning me-2" for="completed-false">In Sospeso</label>
+        </form>
+
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <div class="col" th:each="task : ${tasks}" th:object="${task}">
                 <div class="card shadow-sm border-success">
@@ -26,14 +37,17 @@
                         <!-- formatta la data -->
                         <p class="card-text">[[|Creato : ${#temporals.format(task.createdAt, 'dd/MM/yyyy')} |]]</p>
                         <div class="d-flex justify-content-between">
-                        <div th:if="*{completed}"><span class="badge bg-success p-2" >Completata</span></div>
-                        <div th:unless="*{completed}"><span class="badge bg-warning p-2" >In Sospeso</span></div>
-                        <button class="btn btn-primary" th:onclick="|window.location='@{/edit/{id}(id=*{id})}'|">Modifica</button>
-                    </div>
+                            <div th:if="*{completed}"><span class="badge bg-success p-2">Completata</span></div>
+                            <div th:unless="*{completed}"><span class="badge bg-warning p-2">In Sospeso</span></div>
+                            <button class="btn btn-primary"
+                                th:onclick="|window.location='@{/edit/{id}(id=*{id})}'|">Modifica</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
 
     <div th:replace="~{fragments/resources :: scripts}"></div>

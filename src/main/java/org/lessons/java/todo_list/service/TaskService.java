@@ -25,4 +25,8 @@ public class TaskService {
         return taskRepository.save(formTask);
     }
 
+    public List<Task> orderByCompleted(Boolean completed){
+        return taskRepository.findByCompleted(completed);
+    }
+
 }
